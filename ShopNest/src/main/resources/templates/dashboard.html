@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ShopNest - Dashboard</title>
+
+<!-- Bootstrap CSS & Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+
+<style>
+body { background-color:#f4f6f9; overflow-x:hidden; }
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  width: 240px;
+  height: calc(100vh - 56px);
+  background: #212529;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+/* MAIN */
+.main-content {
+  margin-left: 240px;
+  padding: 1.5rem;
+}
+
+/* CATEGORY LINKS */
+.category-link {
+  color: #dee2e6;
+  padding: 10px 14px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  margin-bottom: 6px;
+}
+.category-link:hover {
+  background: #343a40;
+  color: #fff;
+}
+
+/* PRODUCT CARD */
+.product-card {
+  transition: .3s;
+}
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,.15);
+}
+.product-card img {
+  height: 180px;
+  object-fit: contain;
+}
+
+/* CART BADGE */
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  font-size: .7rem;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .sidebar { left: -260px; }
+  .sidebar.show { left: 0; }
+  .main-content { margin-left: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-dark bg-primary px-3 fixed-top">
+
+  <button class="btn btn-outline-light d-lg-none me-2"
+          onclick="document.getElementById('sidebar').classList.toggle('show')">
+    <i class="bi bi-list"></i>
+  </button>
+
+  <a class="navbar-brand fw-bold d-flex align-items-center gap-2"
+     th:href="@{/dashboard}">
+    <img th:src="@{/shopnest-logo.png}" height="36">
+    ShopNest
+  </a>
+
+  <!-- SEARCH -->
+  <form class="d-none d-md-flex mx-auto w-50"
+        th:action="@{/search}" method="get">
+    <input class="form-control me-2"
+           name="q"
+           th:value="${q}"
+           placeholder="Search products..." />
+    <button class="btn btn-outline-light">
+      <i class="bi bi-search"></i>
+    </button>
+  </form>
+
+  <!-- CART -->
+  <div class="position-relative">
+    <a th:href="@{/cart}" class="btn btn-outline-light">
+      <i class="bi bi-cart-fill fs-5"></i>
+    </a>
+    <span class="badge bg-danger cart-badge"
+          th:text="${cartCount}">0</span>
+  </div>
+</nav>
+
+<!-- ================= SIDEBAR ================= -->
+<div class="sidebar d-flex flex-column" id="sidebar">
+
+  <!-- CATEGORIES -->
+  <div class="flex-grow-1">
+
+    <h6 class="text-center text-white mb-3">
+      <i class="bi bi-grid-fill"></i> CATEGORIES
+    </h6>
+
+    <a th:each="cat : ${categories}"
+       th:href="@{/category/{id}(id=${cat.id})}"
+       class="category-link">
+
+      <!-- ICON FROM BACKEND -->
+      <i class="bi text-primary"
+   th:classappend="${ 
+      #strings.containsIgnoreCase(cat.categories,'appliance')   ? 'bi-lightning-charge-fill' :
+      #strings.containsIgnoreCase(cat.categories,'beauty')      ? 'bi-heart-fill' :
+      #strings.containsIgnoreCase(cat.categories,'computer')    ? 'bi-pc-display' :
+      #strings.containsIgnoreCase(cat.categories,'electronics') ? 'bi-cpu-fill' :
+      #strings.containsIgnoreCase(cat.categories,'fashion')     ? 'bi-bag-fill' :
+      #strings.containsIgnoreCase(cat.categories,'grocery')     ? 'bi-basket-fill' :
+      #strings.containsIgnoreCase(cat.categories,'laptop')      ? 'bi-laptop' :
+      #strings.containsIgnoreCase(cat.categories,'mobile')      ? 'bi-phone-fill' :
+      #strings.containsIgnoreCase(cat.categories,'tablet')      ? 'bi-tablet-fill' :
+      #strings.containsIgnoreCase(cat.categories,'tv')          ? 'bi-tv-fill' :
+      #strings.containsIgnoreCase(cat.categories,'book')        ? 'bi-book-fill' :
+      #strings.containsIgnoreCase(cat.categories,'sport')       ? 'bi-dribbble' :
+      #strings.containsIgnoreCase(cat.categories,'furniture')   ? 'bi-house-fill' :
+      'bi-tag-fill'
+   }">
+</i>
+
+
+      <span th:text="${cat.categories}">Category</span>
+    </a>
+
+  </div>
+
+  <!-- USER ACTIONS -->
+  <div class="mt-auto pt-3 border-top border-secondary"
+       th:if="${session.loggedInUser != null}">
+
+    <!-- MY PROFILE -->
+    <a th:href="@{/orders}"
+       class="category-link text-info fw-semibold">
+      <i class="bi bi-person-circle"></i>
+      My Profile
+    </a>
+
+    <!-- LOGOUT -->
+    <a th:href="@{/logout}"
+       class="category-link text-danger fw-semibold">
+      <i class="bi bi-box-arrow-right"></i>
+      Logout
+    </a>
+
+  </div>
+
+</div>
+
+<!-- ================= CONTENT ================= -->
+<div class="main-content">
+
+  <h4 class="mb-4">Products</h4>
+
+  <div class="row g-4">
+    <div class="col-lg-3 col-md-4 col-sm-6"
+         th:each="product : ${products}">
+      <div class="card product-card h-100 shadow-sm">
+
+        <img th:src="${'/' + product.imageUrl}"
+             th:alt="${product.name}"
+             class="card-img-top"/>
+
+        <div class="card-body text-center">
+          <h6 th:text="${product.name}">Product</h6>
+          <p class="fw-bold text-success">
+            ₹<span th:text="${product.unitPrice}">0</span>
+          </p>
+        </div>
+
+        <div class="card-footer bg-white text-center">
+          <a th:href="@{/cart/add/{id}(id=${product.id})}"
+             class="btn btn-primary btn-sm">
+            <i class="bi bi-cart-plus"></i> Add to Cart
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopNest | Home</title>
+
+<!-- Bootstrap CSS & Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+body {
+  background:#f4f6f9;
+  min-height:100vh;
+}
+
+/* HERO */
+.hero {
+  min-height: calc(100vh - 56px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* USER CARD */
+.user-card {
+  max-width:420px;
+  width:100%;
+  border-radius:14px;
+  box-shadow:0 15px 35px rgba(0,0,0,0.15);
+}
+
+.user-card .card-header {
+  background:#0d6efd;
+  color:#fff;
+  border-radius:14px 14px 0 0;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-dark bg-primary px-3 fixed-top">
+
+  <!-- LOGO -->
+  <a class="navbar-brand fw-bold d-flex align-items-center gap-2"
+     th:href="@{/}">
+    <img th:src="@{/shopnest-logo.png}" height="36">
+    ShopNest
+  </a>
+
+  <!-- ADMIN LOGIN (TOP RIGHT) -->
+  <div class="ms-auto">
+    <a th:href="@{/admin/login}"
+       class="btn btn-outline-light btn-sm">
+      <i class="bi bi-shield-lock-fill me-1"></i>
+      Admin Login
+    </a>
+  </div>
+
+</nav>
+
+<!-- ================= HERO / USER SECTION ================= -->
+<div class="hero">
+
+  <div class="card user-card text-center">
+
+    <!-- HEADER -->
+    <div class="card-header py-3">
+      <h4 class="mb-0 fw-semibold">
+        <i class="bi bi-person-circle me-1"></i>
+        User Access
+      </h4>
+    </div>
+
+    <!-- BODY -->
+    <div class="card-body p-4">
+
+      <h5 class="fw-bold mb-2">Welcome to ShopNest</h5>
+      <p class="text-muted mb-4">
+        Smart shopping made simple and secure
+      </p>
+
+      <!-- USER LOGIN -->
+      <a th:href="@{/login}"
+         class="btn btn-primary w-100 mb-3 fw-semibold">
+        <i class="bi bi-box-arrow-in-right me-1"></i>
+        User Login
+      </a>
+
+      <!-- USER REGISTER -->
+      <a th:href="@{/register}"
+         class="btn btn-outline-primary w-100 fw-semibold">
+        <i class="bi bi-person-plus-fill me-1"></i>
+        Create Account
+      </a>
+
+      <hr class="my-4">
+
+      <!-- EXPLORE -->
+      <a th:href="@{/dashboard}"
+         class="btn btn-success w-100 fw-semibold">
+        <i class="bi bi-shop me-1"></i>
+        Explore Shop
+      </a>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="card-footer bg-white border-0 text-muted small">
+      © 2026 ShopNest
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

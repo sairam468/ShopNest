@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ShopNest | Order Success</title>
+
+<!-- Bootstrap CSS & Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+
+<style>
+/* ===== GLOBAL ===== */
+body {
+  background-color: #f4f6f9;
+  min-height: 100vh;
+}
+
+/* ===== NAVBAR ===== */
+.navbar-brand img {
+  height: 36px;
+}
+
+/* ===== WRAPPER ===== */
+.success-wrapper {
+  min-height: calc(100vh - 56px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== CARD ===== */
+.success-card {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+.success-card .card-header {
+  background: #0d6efd;
+  color: #fff;
+  border-radius: 12px 12px 0 0;
+}
+
+.success-card .card-header h5 {
+  margin: 0;
+  font-weight: 600;
+}
+
+/* ===== FOOTER TEXT ===== */
+.success-footer {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-dark bg-primary px-3 fixed-top">
+  <a class="navbar-brand d-flex align-items-center gap-2 fw-bold"
+     th:href="@{/dashboard}">
+    <img th:src="@{/shopnest-logo.png}" alt="ShopNest Logo" />
+    ShopNest
+  </a>
+</nav>
+
+<!-- ================= SUCCESS CONTENT ================= -->
+<div class="success-wrapper">
+
+  <div class="card success-card text-center">
+
+    <!-- Header -->
+    <div class="card-header py-3">
+      <h5>
+        <i class="bi bi-check-circle-fill me-1"></i>
+        Order Confirmed
+      </h5>
+    </div>
+
+    <!-- Body -->
+    <div class="card-body p-4">
+
+      <h4 class="text-success fw-semibold mb-3">
+        Your order has been placed successfully!
+      </h4>
+
+      <p class="text-muted mb-4">
+        Thank you for shopping with <strong>ShopNest</strong>.
+        Your items will be delivered soon.
+      </p>
+
+      <a th:href="@{/dashboard}" class="btn btn-primary fw-semibold px-4">
+        <i class="bi bi-bag-fill me-1"></i>
+        Continue Shopping
+      </a>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="card-footer bg-white border-0 pb-3">
+      <span class="success-footer">
+        © 2026 ShopNest • Happy Shopping!
+      </span>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

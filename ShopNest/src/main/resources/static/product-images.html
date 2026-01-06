@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Products</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .card {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        img {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+        }
+        h4 { margin: 10px 0 5px; }
+        p { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<h2 style="text-align:center;">All Product Images</h2>
+
+<div class="grid" id="productGrid"></div>
+
+<script>
+fetch('http://localhost:8080/products')
+    .then(res => res.json())
+    .then(data => {
+        const products = data._embedded.products;
+        const grid = document.getElementById('productGrid');
+
+        products.forEach(p => {
+            const card = `
+                <div class="card">
+                    <img src="${p.imageUrl}" alt="${p.name}">
+                    <h4>${p.name}</h4>
+                    <p>₹ ${p.unitPrice}</p>
+                </div>
+            `;
+            grid.innerHTML += card;
+        });
+    })
+    .catch(err => console.error(err));
+</script>
+
+</body>
+</html>
